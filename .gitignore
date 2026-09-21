@@ -1,0 +1,10 @@
+data/raw/*
+data/processed/*
+models/*.pt
+!*/.gitkeep
+.venv/
+__pycache__/
+node_modules/
+.env
+*.pyc
+.ipynb_checkpoints/
