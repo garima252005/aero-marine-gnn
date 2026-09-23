@@ -8,3 +8,4 @@ node_modules/
 .env
 *.pyc
 .ipynb_checkpoints/
+credentials.json
