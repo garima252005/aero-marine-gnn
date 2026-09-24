@@ -1,8 +1,8 @@
 import requests, pandas as pd, time, json
 from datetime import datetime, timezone
 
-LAMIN, LAMAX = 55.4, 55.9
-LOMIN, LOMAX = 12.3, 13.0
+LAMIN, LAMAX = 54.5, 56.0
+LOMIN, LOMAX = 13.0, 16.0
 OUT_FILE = "data/raw/adsb_log.csv"
 POLL_SECONDS = 20
 
