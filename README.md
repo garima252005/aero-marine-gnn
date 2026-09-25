@@ -137,8 +137,5 @@ This regenerates `models/*.pt` and `backend/replay.json`, so Option A above will
 
 ## Reproducing the full pipeline
 
-Processed intermediate data (graphs, cleaned CSVs) is not included in this repo due to size (~200MB).
-To retrain from scratch, download it from our shared Drive folder, or run `src/step2_clean.py` through `src/step5_eval.py` on your own AIS/ADS-B data.
+Processed intermediate data (graphs, cleaned CSVs) and the raw AIS/ADS-B source files are not included in this repo due to size (~200MB+). To retrain from scratch, collect your own data using the steps in Option B above (record your own ADS-B feed with src/record_adsb.py, download the AIS dataset cited above), then run src/step2_clean.py through src/step5_eval.py on it.
 
-<!-- TODO: replace this line with your real shared Google Drive folder link -->
-Drive folder: **https://drive.google.com/drive/folders/1PyQkQ55uyujdR0a-o29uIu3OZ86cKBrZ?usp=drive_link**
