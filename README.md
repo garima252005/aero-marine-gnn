@@ -101,7 +101,7 @@ cd frontend && npm install && npm run dev  # terminal 2, then open http://localh
 ```
 
 Dashboard, with Docker:
-*Note: the Docker files are provided for reproducibility but have not been tested by the authors.*
+
 
 ```bash
 docker compose up --build                  # then open http://localhost:8080

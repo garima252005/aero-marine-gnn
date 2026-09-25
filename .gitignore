@@ -5,7 +5,9 @@ models/*.pt
 .venv/
 __pycache__/
 node_modules/
+frontend/node_modules/
 .env
 *.pyc
 .ipynb_checkpoints/
 credentials.json
+backend/replay.json
