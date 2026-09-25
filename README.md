@@ -1,4 +1,3 @@
-
 # Aero-Marine-GNN
 
 A unified heterogeneous graph neural network prototype for detecting anomalies in air (ADS-B) and maritime (AIS) traffic, with plain-language alert explanations and a live replay dashboard.
@@ -78,11 +77,44 @@ Share of injected events detected:
 
 ## Run it
 
+There are two ways to run this project, depending on what you want.
+
+### Option A — just view the dashboard (fastest, recommended)
+
+The trained model (`models/*.pt`) and its results (`backend/replay.json`) are already included in this repo, so you don't need to retrain anything or collect your own data to see it working.
+
+You only need **[Docker Desktop](https://docs.docker.com/desktop/)** installed.
+
+```bash
+git clone https://github.com/garima252005/aero-marine-gnn.git
+cd aero-marine-gnn
+docker compose up --build
+```
+
+Then open:
+- **http://localhost:8080** — the live replay dashboard
+- **http://localhost:8000** — the backend status check
+
+Without Docker, you can instead run the backend and frontend directly (two terminals, from the project root):
+
+```bash
+uvicorn backend.main:app --reload          # terminal 1
+cd frontend && npm install && npm run dev  # terminal 2, then open http://localhost:5173
+```
+
+### Option B — reproduce the full pipeline from scratch (advanced)
+
+Only needed if you want to collect your own data and retrain the model yourself, e.g. to verify the methodology or extend it.
+
 ```bash
 python -m venv .venv
 .venv\Scripts\activate          # Windows
 pip install -r requirements.txt
+```
 
+You'll also need your own OpenSky account and a `credentials.json` file (see the Data section above), and the DTU AIS dataset downloaded into `data/raw/ais_dtu` (cited above).
+
+```bash
 python src/record_adsb.py       # leave running for 24 hours or more, then stop
 python src/convert_ais.py
 python src/step2_clean.py
@@ -97,18 +129,7 @@ python src/explain.py
 python src/export_replay.py
 ```
 
-Dashboard, without Docker (two terminals):
-
-```bash
-uvicorn backend.main:app --reload          # terminal 1, from the project root
-cd frontend && npm install && npm run dev  # terminal 2, then open http://localhost:5173
-```
-
-Dashboard, with Docker:
-
-```bash
-docker compose up --build                  # then open http://localhost:8080
-```
+This regenerates `models/*.pt` and `backend/replay.json`, so Option A above will then show your own results.
 
 ## Repository layout
 
