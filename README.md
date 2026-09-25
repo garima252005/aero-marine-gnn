@@ -1,17 +1,18 @@
 
-## Team
-- Garima Singh Parihar
-- Harsh Singh Chauhan
-- Divyanshi Bharadwaj
-
-Guide: Ms. Shivani Trivedi, ABESEC Ghaziabad
 # Aero-Marine-GNN
 
 A unified heterogeneous graph neural network prototype for detecting anomalies in air (ADS-B) and maritime (AIS) traffic, with plain-language alert explanations and a live replay dashboard.
 
 *ABESEC Ghaziabad, Department of CSE, final-year project (session 2026-27).*
 
-TODO: add a dashboard screenshot here, for example `![Dashboard](docs/dashboard.png)`
+![Dashboard](docs/dashboard.png)
+
+## Team
+- Garima Singh Parihar
+- Harsh Singh Chauhan
+- Divyanshi Bharadwaj
+
+Guide: Ms. Shivani Trivedi, ABESEC Ghaziabad
 
 ## How it works
 
@@ -55,22 +56,25 @@ Share of injected events detected:
 | Ship-ship meeting | ship | 0.06 | 0.44 | - | 0.25 |
 | Air-sea loiter | aircraft | 0.00 | - | 0.00 | 0.33 |
 
-**Main finding:** the unified model matched, but did not clearly beat, single-domain GNNs. Learned models were much better than the constant-velocity baseline on ships. The only event type where only the unified model detected anything was the air-sea loiter, but there were just 3 such events.
+**Main finding:** the unified model matched, but did not clearly beat, single-domain GNNs overall. Learned models were much better than the constant-velocity baseline on ships. The only event type where only the unified model detected anything was the air-sea loiter, but there were just 3 such events, so this result should be treated as preliminary, not conclusive.
 
 ## Limitations
 
 - All anomalies are synthetic and injected into the test data.
 - Ships come from a 2021 AIS dataset and aircraft from a September 2026 recording; the two were time-aligned artificially, so ships and aircraft did not really share the same day.
 - One region and a short period (about 15 hours of overlap), so few events per anomaly type (8 aircraft events per kind, 3 air-sea events). Small differences are within noise; one random seed was used.
-- In normal traffic air and sea vehicles do not influence each other, so a next-step predictor has little reason to use air-sea links. Anomalies that keep each vehicle's motion normal and only make the *relationship* unusual are not detectable with this scoring.
+- In normal traffic, air and sea vehicles do not influence each other, so a next-step predictor has little reason to use air-sea links. Anomalies that keep each vehicle's motion normal and only make the *relationship* unusual are not detectable with this scoring.
 - Attention weights are hints about what the model looked at, not proof of cause.
 - The dashboard replays recorded data; it is not a production real-time system.
 
 ## Data
 
-- **ADS-B:** recorded with `src/record_adsb.py` from the OpenSky Network API. TODO: add the citation and terms of use from OpenSky's website.
-- **AIS:** DTU AIS dataset (`data/raw/ais_dtu`), 13 Dec 2021. TODO: add the citation and licence from the dataset's source page.
-- `data/`, `models/*.pt` and `credentials.json` are not in the repository. Create your own `credentials.json` for OpenSky if you record data.
+- **ADS-B:** recorded with `src/record_adsb.py` from the OpenSky Network API.
+  Data retrieved from the OpenSky Network, https://opensky-network.org
+- **AIS:** DTU AIS dataset (`data/raw/ais_dtu`), 13 Dec 2021.
+  **UNLABELLED DATA** Olesen, Kristoffer Vinther; Clemmensen, Line Katrine Harder; Christensen, Anders Nymark (2023). Unlabelled training datasets of AIS Trajectories from Danish Waters for Abnormal Behavior Detection. Technical University of Denmark. Dataset. https://doi.org/10.11583/DTU.21511842.v1
+  **LABELLED DATA** Olesen, Kristoffer Vinther; Clemmensen, Line Katrine Harder; Christensen, Anders Nymark (2023). Labelled evaluation datasets of AIS Trajectories from Danish Waters for Abnormal Behavior Detection. Technical University of Denmark. Dataset. https://doi.org/10.11583/DTU.21511815.v1
+- `data/`, `models/*.pt` and `credentials.json` are not fully included in the repository (trained model weights and replay.json are included; raw/processed intermediate data is not, due to size). Create your own `credentials.json` for OpenSky if you record data.
 
 ## Run it
 
@@ -102,7 +106,6 @@ cd frontend && npm install && npm run dev  # terminal 2, then open http://localh
 
 Dashboard, with Docker:
 
-
 ```bash
 docker compose up --build                  # then open http://localhost:8080
 ```
@@ -110,3 +113,11 @@ docker compose up --build                  # then open http://localhost:8080
 ## Repository layout
 
 `src/` pipeline scripts, `backend/` FastAPI replay server (with `replay.json`), `frontend/` React + Leaflet dashboard, `notebooks/` experiments.
+
+## Reproducing the full pipeline
+
+Processed intermediate data (graphs, cleaned CSVs) is not included in this repo due to size (~200MB).
+To retrain from scratch, download it from our shared Drive folder, or run `src/step2_clean.py` through `src/step5_eval.py` on your own AIS/ADS-B data.
+
+<!-- TODO: replace this line with your real shared Google Drive folder link -->
+Drive folder: **https://drive.google.com/drive/folders/1PyQkQ55uyujdR0a-o29uIu3OZ86cKBrZ?usp=drive_link**
